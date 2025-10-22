@@ -43,9 +43,29 @@ machine code.rdkcentral.com
 ```
 ## Downloading Source Code & Building
 ```c
+// Clean all old repo 
+repo forall -c 'git reset --hard; git clean -fdx'
+// Please use the following repo init command
+$ repo init -u https://user@code.rdkcentral.com/r/manifests -m manifest.xml -b <branch_name>
+// Examples for RDK-B 
+
+repo init -u https://code.rdkcentral.com/r/manifests -m rdkb.xml -b rdkb-20180527
+
+repo init -u https://code.rdkcentral.com/r/manifests -m rdkb.xml -b  rdkb-2023q2-dunfell
+
 repo init -u https://code.rdkcentral.com/r/manifests -m rdkb.xml -b master
 
+repo init -u https://code.rdkcentral.com/r/manifests -m rdkb.xml -b morty
+
+// Examples for RDK-V
+ repo init -u https://code.rdkcentral.com/r/manifests -m rdkv.xml       // for building RDK6 please replace rdkv.xml with the one provided in this repo
+
+// then do sync as the following 
+
 repo sync --no-clone-bundle
+// if the above command does not work use the following 
+repo sync --force-sync --no-clone-bundle
+
 ```
 
 
