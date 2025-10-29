@@ -69,3 +69,48 @@ repo sync --force-sync --no-clone-bundle
 ```
 
 
+## Start the Docker image 
+```c
+docker start -ai rdk-rpi
+```
+
+## Fix: gerrit.teamccp.com cant access gerrit.teamccp.com/rdk/components/generic/bluetooth_leAppMgr
+```c
+vim meta-rdk/recipes-connectivity/bluetooth/bluetooth-leappmgr_git.bb
+// and modify the SRC_URI
+SRC_URI = "git://code.rdkcentral.com/r/rdk/components/generic/bluetooth_leAppMgr;protocol=https;branch=6.0.0"
+```
+## Start Building using the following 
+```c
+bitbake rpi-test-image      // this images is working fine tell now 
+```
+
+## Fix:  CVE-2020-8284_fix.patch 
+```c
+cd ~/RDK_V6_RPI/meta-rdk/recipes-support/curl/files/
+mv CVE-2020-8284_fix.patch CVE-2020-8284_fix.patch.bak
+vi ~/RDK_V6_RPI/meta-rdk/recipes-support/curl/curl_7.69.1.bbappend
+# SRC_URI += "file://CVE-2020-8284_fix.patch"
+
+
+bitbake -c cleanall curl-native
+```
+
+## Fix: bmap-tools do_fetch and do_populate 
+
+```c
+// do_fetch
+SRC_URI = "git://github.com/intel/${BPN};branch=main"
+
+// do_populate
+vim openembedded-core/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+// and replace the following 
+LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+```
+
+## Fix: breakpad error 
+```c
+ vim meta-rdk/recipes-common/breakpad_wrapper/breakpad-wrapper.bb
+
+ DEPENDS += "breakpad"
+```
